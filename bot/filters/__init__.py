@@ -1,0 +1,1 @@
+from .perm_filters import IsAdmin

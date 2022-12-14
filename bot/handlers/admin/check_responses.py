@@ -9,10 +9,10 @@ from aiogram.types import InputFile
 
 @dp.message_handler(Text(equals=['Переглянути відповіді']))
 async def get_quests(message : types.Message):
-    await message.answer('Оберіть опитування для перегляду результатів', reply_markup=generate_inline(sql_get_all_questionnaires_titles(), 'Перевірити '))
+    await message.answer('Оберіть опитування для перегляду результатів', reply_markup=generate_inline(sql_get_all_questionnaires_titles(), 'check '))
 
 
-@dp.callback_query_handler(Text(startswith='Перевірити '))
+@dp.callback_query_handler(Text(startswith='check '))
 async def get_results(message : types.CallbackQuery):
-    quest_jsons = sql_get_responses(message.data.replace('Перевірити ', ''))
+    quest_jsons = sql_get_responses(message.data.replace('check ', ''))
     await bot.send_document(message.from_user.id, ('resposes.xlsx', get_response_as_excel(quest_jsons) ))

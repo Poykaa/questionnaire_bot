@@ -25,7 +25,7 @@ async def next_question(message, state):
         data['responses'].append({q[0]: ''})
         if q[1]:
             # Если в вопросе варианты ответа
-            await bot.send_message(message.from_user.id, 'Оберіть відповідь', reply_markup=generate_inline(q[1], ''))
+            await bot.send_message(message.from_user.id, q[0], reply_markup=generate_inline(q[1], ''))
         else:
             await bot.send_message(message.from_user.id, q[0])
 
@@ -37,7 +37,7 @@ async def start_quest(message : types.Message):
         await message.answer('У вас не має відкритих опитуваннь')
         return
     await QuestPassage.initial.set()
-    k = generate_inline(quests, 'Почати опитування ', 'Відмінити')
+    k = generate_inline(quests, 'start', 'Відмінити')
     await message.answer('Оберіть опитування для проходження', reply_markup=k)
 
 
@@ -48,12 +48,12 @@ async def cancel(message : types.CallbackQuery, state : FSMContext):
     await message.message.delete()
 
 
-@dp.callback_query_handler(Text(startswith='Почати опитування '), state=QuestPassage.initial)
+@dp.callback_query_handler(Text(startswith='start'), state=QuestPassage.initial)
 async def initial_question(message : types.CallbackQuery, state : FSMContext):
     async with state.proxy() as data:
         data['user'] = sql_get_username(message.from_user.id)
         data['responses'] = []
-        data['questions'] = sql_get_questionnaire(message.data.replace('Почати опитування ', ''))
+        data['questions'] = sql_get_questionnaire(message.data.replace('start', ''))
         q = tuple(data['questions']['questions'][0].items())[0]
         data['responses'].append({q[0]: ''})
         if q[1]:

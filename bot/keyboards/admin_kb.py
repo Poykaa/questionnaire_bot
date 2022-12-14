@@ -1,6 +1,6 @@
-from aiogram.types import KeyboardButton, ReplyKeyboardMarkup, ReplyKeyboardRemove
+from aiogram.types import KeyboardButton, ReplyKeyboardMarkup
 
-cancel_button = KeyboardButton(text='Отмена')
+cancel_button = KeyboardButton(text='Відмінити')
 
 main_admin_kb = ReplyKeyboardMarkup(keyboard=[[
     KeyboardButton(text='Пройти опитування'),

@@ -30,7 +30,8 @@ async def set_title(message : types.Message, state : FSMContext):
         data['title'] = message.text
         data['groups'] = []
     await QuestCreator.next()
-    await message.answer('Оберіть групи, які мають пройти опитування (натисніть "Далі", якщо хочете обрати всі групи)', reply_markup=generate_inline(sql_get_groups(), 'Обрати групу №', 'Далі'))
+    k = generate_inline(sql_get_groups(), 'Обрати групу №', 'Далі')
+    await message.answer('Оберіть групи, які мають пройти опитування (натисніть "Далі", якщо хочете обрати всі групи)', reply_markup=k)
 
 
 @dp.callback_query_handler(Text(startswith=['Обрати групу №']), state=QuestCreator.select_groups)
@@ -42,7 +43,7 @@ async def set_groups(message : types.CallbackQuery, state : FSMContext):
 @dp.callback_query_handler(Text(equals=['Далі'], ignore_case=True), state=QuestCreator.select_groups)
 async def confirm_groups(message : types.CallbackQuery, state : FSMContext):
     await QuestCreator.next()
-    await bot.send_message(message.from_user.id, ('''Створіть запитання. Для створення запитання із варіантами відповідей використовуйте конкстукцію: "Запитання ((Варіант ведповіді 1/Варіант відповіді 2/ т.д.))'''))
+    await bot.send_message(message.from_user.id, ('''Створіть запитання. Для створення запитання із варіантами відповідей використовуйте конкстукцію: "Запитання ((Варіант відповіді 1/Варіант відповіді 2/ т.д.))'''))
 
 
 

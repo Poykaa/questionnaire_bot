@@ -29,17 +29,10 @@ def sql_create_questionnaire(questionnaire):
     base.commit()
 
 
-def sql_get_users_by_group(groups):
-    if not groups:
-        ...
-    for group in groups:
-        ...
-
-
 def sql_get_all_questionnaires_titles():
     return cur.execute('SELECT questionnaire_title FROM questionnaire').fetchall()
 
-#ПЕРЕДЕЛАТЬЬЬБ
+
 def sql_get_allowed_questionnaires(user_tg_id):
     res = []
     quests = cur.execute(f'SELECT questionnaire_json FROM questionnaire').fetchall()
@@ -49,7 +42,6 @@ def sql_get_allowed_questionnaires(user_tg_id):
         if not q['groups'] or group in q['groups']:
             res.append(q['title'])
     return res
-
 
 
 def sql_get_questionnaire(questionnaire_title):

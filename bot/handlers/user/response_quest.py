@@ -37,7 +37,8 @@ async def start_quest(message : types.Message):
         await message.answer('У вас не має відкритих опитуваннь')
         return
     await QuestPassage.initial.set()
-    await message.answer('Оберіть опитування для проходження', reply_markup=generate_inline(quests, 'Почати опитування ', 'Відмінити'))
+    k = generate_inline(quests, 'Почати опитування ', 'Відмінити')
+    await message.answer('Оберіть опитування для проходження', reply_markup=k)
 
 
 @dp.callback_query_handler(Text(equals=['Відмінити']), state=QuestPassage.initial)
